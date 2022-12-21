@@ -5,7 +5,6 @@ defmodule BookSearch.Books do
 
   import Ecto.Query, warn: false
   alias BookSearch.Repo
-
   alias BookSearch.Books.Book
 
   @doc """
@@ -18,7 +17,7 @@ defmodule BookSearch.Books do
 
   """
   def list_books do
-    Repo.all(Book)
+    Repo.all(Book) |> Repo.preload(:tags)
   end
 
   @doc """
@@ -35,7 +34,7 @@ defmodule BookSearch.Books do
       ** (Ecto.NoResultsError)
 
   """
-  def get_book!(id), do: Repo.get!(Book, id)
+  def get_book!(id), do: Repo.get!(Book, id) |> Repo.preload(:tags)
 
   @doc """
   Creates a book.
@@ -49,10 +48,14 @@ defmodule BookSearch.Books do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_book(attrs \\ %{}) do
+  def create_book(attrs \\ %{}, tags \\ []) do
+    # Create a new Book struct with the default values
     %Book{}
-    |> Book.changeset(attrs)
+    # Use the changeset function to update the struct with the provided attributes and tags
+    |> Book.changeset(attrs, tags)
+    # Insert the updated struct into the repository
     |> Repo.insert()
+
   end
 
   @doc """
@@ -67,9 +70,9 @@ defmodule BookSearch.Books do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_book(%Book{} = book, attrs) do
+  def update_book(%Book{} = book, attrs, tags \\ []) do
     book
-    |> Book.changeset(attrs)
+    |> Book.changeset(attrs, tags)
     |> Repo.update()
   end
 

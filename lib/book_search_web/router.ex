@@ -57,6 +57,16 @@ defmodule BookSearchWeb.Router do
     patch "/books/:id", BookController, :update
     # Delete action
     delete "/books/:id", BookController, :delete
+
+    # Define routes for the TagController actions
+    get "/tags", TagController, :index                  # Index action
+    get "/tags/new", TagController, :new                # New action
+    post "/tags", TagController, :create                # Create action
+    get "/tags/:id", TagController, :show               # Show action
+    get "/tags/:id/edit", TagController, :edit          # Edit action
+    put "/tags/:id", TagController, :update             # Update action
+    patch "/tags/:id", TagController, :update           # Update action
+    delete "/tags/:id", TagController, :delete          # Delete action
   end
 
   # Other scopes may use custom stacks.
