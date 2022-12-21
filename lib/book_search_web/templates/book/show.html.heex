@@ -1,0 +1,29 @@
+<h1>Show Book</h1>
+
+<ul>
+  <%= if @book.author do %>
+    <li>
+      <strong>Author:</strong>
+      <%= @book.author.name %>
+    </li>
+  <% end %>
+
+  <li><h2>
+    <strong>Title:</strong>
+    <%= @book.title %>
+  </h2></li>
+
+  <li>
+
+    <strong>Tags:</strong>
+    <ul><h3>
+      <%= for tag <- @book.tags do %>
+        <li><%= link tag.name, to: Routes.tag_path(@conn, :show, tag) %></li>
+      <% end %>
+    </h3></ul>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.book_path(@conn, :edit, @book) %></span> |
+<span><%= link "Back", to: Routes.book_path(@conn, :index) %></span>
