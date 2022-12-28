@@ -72,6 +72,7 @@ defmodule BookSearch.Books do
   """
   def update_book(%Book{} = book, attrs, tags \\ []) do
     book
+    |> Repo.preload(:book_content) # pre-load book_content association
     |> Book.changeset(attrs, tags)
     |> Repo.update()
   end
